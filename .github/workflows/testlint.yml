@@ -18,5 +18,5 @@ jobs:
       - name: Test
         run: echo "Testing workflow"
       - name: Deploy
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'push'
         run: echo "Changeset deployed"
