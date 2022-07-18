@@ -1,0 +1,40 @@
+name: Workflow Dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      DiskType:
+        description: "Select Disk Type"
+        required: true
+        default: "Premium SSD"
+        type: choice
+        options:
+          - Premium SSD
+          - Redundant SDD
+          - Optimised HDD
+        
+      Region:
+        description: "Select your Region"
+        required: true
+        type: choice
+        options:
+          - Central US
+          - Central India
+          - South India
+          
+      Tags:
+        description: "Test scenario tags"
+        required: true 
+        type: string
+        
+      print_tags:
+        description: 'True to print to STDOUT'
+        required: true 
+        type: boolean
+        
+jobs:
+ build:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Display_Metadata
+       if:  ${{ inputs.print_tags }} 
+       run: echo  The tags are ${{ inputs.tags }}
