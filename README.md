@@ -68,3 +68,33 @@ jobs:
 
 We're echoing "Changeset deployed" for when PR merged
  
+# 3. Conditional Workflow 
+
+Event triggers can be multiple, but all events which trigger the workflow have to be listed.
+
+if: condition can be used to match events or repo names etc, and run jobs based on those conditions.
+
+```
+name: Conditional Workflow Check
+on:
+  push:
+   branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Lint
+        if: ${{ github.ref == 'ref/heads/main' }} && github.repository == 'apoorvPC/privatecircle_repo'
+
+        run: echo "Lint checks based on conditional flow"
+      - name: Test
+        run: echo "Testing workflow"
+      - name: Deploy
+        if: github.event_name == 'push'
+        run: echo "Changeset deployed"
+```
