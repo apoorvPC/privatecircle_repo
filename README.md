@@ -89,8 +89,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Lint
-        if: ${{ github.ref == 'ref/heads/main' }} && github.repository == 'apoorvPC/privatecircle_repo'
-
+        if: ${{ github.ref == 'ref/heads/main' }} && github.repository == 'apoorvPC/privatecircle_repo' && github.event_name == 'pull_request'
         run: echo "Lint checks based on conditional flow"
       - name: Test
         run: echo "Testing workflow"
