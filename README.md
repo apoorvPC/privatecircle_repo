@@ -94,6 +94,11 @@ jobs:
       - name: Test
         run: echo "Testing workflow"
       - name: Deploy
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && ${{ github.ref == 'ref/heads/main' }}
         run: echo "Changeset deployed"
 ```
+**Condition 1**  When Pull Request created, Lint and Test jobs will run but Deploy won't 
+![image](https://user-images.githubusercontent.com/109505635/179493450-43713d80-2b33-4fcf-afbf-a2a5c3189973.png)
+
+**Condition 2**  When PR is merged (push to main), then Deploy job will run
+![image](https://user-images.githubusercontent.com/109505635/179493854-3d1b85d1-ee6f-4d51-9bfc-9579820f0eb1.png)
