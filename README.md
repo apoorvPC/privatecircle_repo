@@ -163,3 +163,37 @@ This is the output of workflow:
 
 ![image](https://user-images.githubusercontent.com/109505635/179502832-8a823319-413e-4882-b0c2-e0aa11613c93.png)
 
+# 5. Workflow triggered on "publish" (tags etc)
+
+Created a workflow to listen to when tags are "published" , and then create a release for that tag.
+
+git checkout <commit id>
+
+git tag "tagName"
+
+git push --tags
+
+```
+name: Create release on tags
+on:
+  push:
+    tags:
+      - '*'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Create Release
+        uses: actions/create-release@latest
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+```
+
+ERROR: Workflow not getting triggered when tag is pushed
+
+RES: I found out that if the tag was previously created (locally) before the workflow was created, no matter how many times I deleted and re-pushed the tag, it would not trigger until I deleted the tag locally and recreated it. The action does not seem to work for tags created before the workflow.
