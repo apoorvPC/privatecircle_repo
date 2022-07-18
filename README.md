@@ -108,6 +108,9 @@ jobs:
 workflow dispatch and workflow call can have user inputs specified during workflow run.
 
 We can trigger jobs based on metadata input.
+Following workflow takes DiskType, Region as choice, Tags as String, and Print_tags as bool.
+
+When the Print_tags is checked, we display the metadata specified by user.
 
 ```
 
@@ -152,3 +155,5 @@ jobs:
        if:  ${{ inputs.print_tags }} 
        run: echo  "The tags are ${{ inputs.tags }}, Region Selected ${{ inputs.region }}, DiskType ${{ inputs.DiskType }}"
 ```
+
+![image](https://user-images.githubusercontent.com/109505635/179502523-8e1a65e4-8e3a-41ae-87f1-2f94c908c3f8.png)
