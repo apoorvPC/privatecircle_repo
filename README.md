@@ -156,4 +156,10 @@ jobs:
        run: echo  "The tags are ${{ inputs.tags }}, Region Selected ${{ inputs.region }}, DiskType ${{ inputs.DiskType }}"
 ```
 
-![image](https://user-images.githubusercontent.com/109505635/179502523-8e1a65e4-8e3a-41ae-87f1-2f94c908c3f8.png)
+![image](https://user-images.githubusercontent.com/109505635/179502661-0d7d815d-d322-4b5d-a6cf-f313fc3eba34.png)
+
+
+This is the output of workflow:
+
+![image](https://user-images.githubusercontent.com/109505635/179502832-8a823319-413e-4882-b0c2-e0aa11613c93.png)
+
