@@ -37,6 +37,6 @@ jobs:
    steps:
      - name: Display_Metadata
        if:  ${{ inputs.print_tags }} 
-       run: echo  "The tags are ${{ inputs.tags }}, Region Selected: ${{ inputs.region }}"
+       run: echo  "The tags are ${{ inputs.tags }}, Region Selected ${{ inputs.region }}, DiskType ${{ inputs.DiskType }}"
        
        
