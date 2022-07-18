@@ -1,4 +1,4 @@
-name: PR_Test
+name: Conditional Workflow Check
 on:
   push:
    branches: [ "main" ]
