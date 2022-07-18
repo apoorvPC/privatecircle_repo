@@ -102,3 +102,53 @@ jobs:
 
 **Condition 2**  When PR is merged (push to main), then Deploy job will run
 ![image](https://user-images.githubusercontent.com/109505635/179493854-3d1b85d1-ee6f-4d51-9bfc-9579820f0eb1.png)
+
+# 4. Workflow dispatch based on inputs
+
+workflow dispatch and workflow call can have user inputs specified during workflow run.
+
+We can trigger jobs based on metadata input.
+
+```
+
+name: Workflow Dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      DiskType:
+        description: "Select Disk Type"
+        required: true
+        default: "Premium SSD"
+        type: choice
+        options:
+          - Premium SSD
+          - Redundant SDD
+          - Optimised HDD
+        
+      Region:
+        description: "Select your Region"
+        required: true
+        type: choice
+        options:
+          - Central US
+          - Central India
+          - South India
+          
+      Tags:
+        description: "Test scenario tags"
+        required: true 
+        type: string
+        
+      print_tags:
+        description: 'True to print to STDOUT'
+        required: true 
+        type: boolean
+        
+jobs:
+ build:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Display_Metadata
+       if:  ${{ inputs.print_tags }} 
+       run: echo  "The tags are ${{ inputs.tags }}, Region Selected ${{ inputs.region }}, DiskType ${{ inputs.DiskType }}"
+```
