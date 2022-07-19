@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Sonar test
-        run: echo "Sonar tests running"
+        run: echo "Sonar tests running, NPM Token is ${{ secrets.SONAR_AUTH_TOKEN }}"
+        
   
 
