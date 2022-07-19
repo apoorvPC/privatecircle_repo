@@ -1,0 +1,13 @@
+name: Workflow to be invoked #1
+on:
+  workflow_call:
+  
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: npm test
+        run: echo "npm tests running"
+  
+
