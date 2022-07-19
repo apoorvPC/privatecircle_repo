@@ -1,4 +1,4 @@
-name: Conditional Workflow Check
+name: PR to Release Workflow
 on:
   push:
    branches: [ "main" ]
