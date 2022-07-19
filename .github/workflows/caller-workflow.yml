@@ -1,0 +1,11 @@
+name: Call a reusable workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call-workflow-passing-data:
+    uses: apoorvPC/privatecircle_repo/.github/workflows/called-workflow.yml@main 
+    with:
+      username: apoorv
+      password: privatecircle
