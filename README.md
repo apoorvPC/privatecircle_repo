@@ -218,3 +218,60 @@ Workflow triggered when new release is created/drafted from tag.
 
 ![image](https://user-images.githubusercontent.com/109505635/179680005-cf857e34-803e-460f-a590-00ccf376113a.png)
 
+# 6. Reusable workflows
+  
+  Created:
+  
+  1. Caller workflow - having workflow dispatch, takes user inputs on trigger and passes value to called workflow.
+  
+  2. Called workflow - Has jobs to display the data passed by invoking workflow.
+  
+  **caller-workflow.yml**
+  ```
+  name: Call a reusable workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: Enter username
+        required: true
+        type: string
+      password:
+        description: Enter password
+        required: true
+        type: string
+
+jobs:
+  call-workflow-passing-data:
+    uses: apoorvPC/privatecircle_repo/.github/workflows/called-workflow.yml@main 
+    with:
+      username: ${{ inputs.username }}
+      password: ${{ inputs.password }}
+  ```
+  
+  **called-workflow.yml**
+  ```
+  name: Reusable workflow example
+
+on:
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+      password:
+        required: true
+        type: string
+        
+jobs:
+ build:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Display Data
+       run: echo "Username is ${{ inputs.username }}, Password is ${{ inputs.password }}"
+  ```
+  
+  ![image](https://user-images.githubusercontent.com/109505635/179735416-8fc34644-f3ed-4af5-a3c7-67c3b7daf635.png)
+
+  ![image](https://user-images.githubusercontent.com/109505635/179735486-1decf26d-286a-4a12-95c2-acffbd4829f5.png)
