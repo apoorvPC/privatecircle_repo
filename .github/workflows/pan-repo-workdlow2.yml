@@ -1,0 +1,12 @@
+name: Workflow to be invoked #2
+on:
+  workflow_call:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sonar test
+        run: echo "Sonar tests running"
+  
+
