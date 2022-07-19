@@ -2,10 +2,19 @@ name: Call a reusable workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      username:
+        description: Enter username
+        required: true
+        type: string
+      password:
+        description: Enter password
+        required: true
+        type: string
 
 jobs:
   call-workflow-passing-data:
     uses: apoorvPC/privatecircle_repo/.github/workflows/called-workflow.yml@main 
     with:
-      username: apoorv
-      password: privatecircle
+      username: ${{ inputs.username }}
+      password: ${{ inputs.password }}
