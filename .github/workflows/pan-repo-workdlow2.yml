@@ -1,6 +1,10 @@
 name: Workflow to be invoked #2
 on:
   workflow_call:
+    inputs:
+      SONAR_AUTH_TOKEN:
+        required: true
+        type: string
   
 jobs:
   build:
