@@ -1,8 +1,8 @@
 name: Create release on tags
 on:
-  release:
-    types: [published, created, edited]
-
+  create:
+    tags:
+      - '*'
 
 
 jobs:
@@ -11,5 +11,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Deploy Changeset on Release
-        run: echo "Release deployed" 
+      - name: Create Release
+        uses: actions/create-release@latest
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
