@@ -197,3 +197,24 @@ jobs:
 ERROR: Workflow not getting triggered when tag is pushed
 
 RES: I found out that if the tag was previously created (locally) before the workflow was created, no matter how many times I deleted and re-pushed the tag, it would not trigger until I deleted the tag locally and recreated it. The action does not seem to work for tags created before the workflow.
+
+```
+name: Create release on tags
+on:
+  release:
+    types: [published, created]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Create Release
+        run: echo "Release created"
+```
+Workflow triggered when new release is created/drafted from tag.
+
+![image](https://user-images.githubusercontent.com/109505635/179680005-cf857e34-803e-460f-a590-00ccf376113a.png)
+
