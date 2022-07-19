@@ -1,6 +1,10 @@
 name: Workflow to be invoked #1
 on:
   workflow_call:
+    inputs:
+      NPM_AUTH_TOKEN:
+        required: true
+        type: string
   
         
 jobs:
