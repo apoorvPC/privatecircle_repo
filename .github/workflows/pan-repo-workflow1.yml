@@ -8,6 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: npm test
-        run: echo "npm tests running"
+        run: echo "NPM tests running, NPM Token is ${{ secrets.NPM_AUTH_TOKEN }}"
   
 
