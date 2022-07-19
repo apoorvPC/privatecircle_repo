@@ -275,3 +275,77 @@ jobs:
   ![image](https://user-images.githubusercontent.com/109505635/179735416-8fc34644-f3ed-4af5-a3c7-67c3b7daf635.png)
 
   ![image](https://user-images.githubusercontent.com/109505635/179735486-1decf26d-286a-4a12-95c2-acffbd4829f5.png)
+  
+ # 7. Reusable workflows (between repos)
+  
+  Created two workflows (repo - apoorvPC/privatecircle_repo) to be called conditionally - based on user input.
+  
+  First workflow runs NPM Tests, and accepts a **secret** from caller-workflow
+  ```
+  name: Workflow to be invoked #1
+on:
+  workflow_call:
+    inputs:
+      NPM_AUTH_TOKEN:
+        required: true
+        type: string
+  
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: npm test
+        run: echo "NPM tests running, NPM Token is ${{ secrets.NPM_AUTH_TOKEN }}"
+  ```
+  
+  Second workflow runs Sonar tests, and accepts a **secret** from caller-workflow
+  ```
+  
+name: Workflow to be invoked #2
+on:
+  workflow_call:
+    inputs:
+      SONAR_AUTH_TOKEN:
+        required: true
+        type: string
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sonar test
+        run: echo "Sonar tests running, Sonar Token is ${{ secrets.SONAR_AUTH_TOKEN }}"
+  ```
+  
+  Finally, we have the caller-workflow in another repo (repo - apoorvPC/TestRepo), with secrets present in this same repo
+  
+ ```
+ name: Test Caller workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      Test:
+        description: "Select Test type"
+        required: true
+        type: string
+
+jobs:
+ calling-workflow-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: NPM Test
+        if: ${{ inputs.Test=="npm" }}
+        uses: apoorvPC/privatecircle_repo/.github/workflows/pan-repo-workdlow2.yml@main
+        with:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+ calling-workflow-1:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Sonar Test
+      if: ${{ inputs.Test=="sonar" }}
+      uses: apoorvPC/privatecircle_repo/.github/workflows/pan-repo-workflow1.yml@main
+      with:
+        SONAR_AUTH_TOKEN: ${{ secrets.SONAR_AUTH_TOKEN }}
+ ```
