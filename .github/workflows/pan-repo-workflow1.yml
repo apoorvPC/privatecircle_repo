@@ -1,14 +1,20 @@
 name: Workflow to be invoked #1
 on:
   workflow_call:
-    
+    secrets:
+      TOKEN:
+        required: true
   
         
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      STATIC_VALUE: true # populated
+      TOKEN: ${{ secrets.TOKEN }}
     steps:
       - name: npm test
-        run: echo "NPM tests running"
+        run: echo "Sonar Token is ${{ secrets.TOKEN }}"
+        
   
 
