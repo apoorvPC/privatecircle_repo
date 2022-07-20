@@ -14,7 +14,7 @@ jobs:
       TOKEN: ${{ secrets.TOKEN }}
     steps:
       - name: npm test
-        run: echo "Sonar Token is ${{ secrets.TOKEN }}"
+        run: echo "NPM Token is ${{ secrets.TOKEN }}"
         
   
 
