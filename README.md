@@ -276,27 +276,29 @@ jobs:
 
   ![image](https://user-images.githubusercontent.com/109505635/179735486-1decf26d-286a-4a12-95c2-acffbd4829f5.png)
   
- # 7. Reusable workflows (between repos)
+ # 7. Reusable workflows - based on conditional statements & Passing Secrets
   
   Created two workflows (repo - apoorvPC/privatecircle_repo) to be called conditionally - based on user input.
   
   First workflow runs NPM Tests, and accepts a **secret** from caller-workflow
   ```
-  name: Workflow to be invoked #1
+name: Workflow to be invoked #1
 on:
   workflow_call:
-    inputs:
-      NPM_AUTH_TOKEN:
+    secrets:
+      TOKEN:
         required: true
-        type: string
   
         
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      STATIC_VALUE: true # populated
+      TOKEN: ${{ secrets.TOKEN }}
     steps:
       - name: npm test
-        run: echo "NPM tests running, NPM Token is ${{ secrets.NPM_AUTH_TOKEN }}"
+        run: echo "NPM Token is ${{ secrets.TOKEN }}"
   ```
   
   Second workflow runs Sonar tests, and accepts a **secret** from caller-workflow
@@ -305,23 +307,25 @@ jobs:
 name: Workflow to be invoked #2
 on:
   workflow_call:
-    inputs:
-      SONAR_AUTH_TOKEN:
+    secrets:
+      TOKEN:
         required: true
-        type: string
   
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      STATIC_VALUE: true # populated
+      TOKEN: ${{ secrets.TOKEN }}
     steps:
       - name: Sonar test
-        run: echo "Sonar tests running, Sonar Token is ${{ secrets.SONAR_AUTH_TOKEN }}"
+        run: echo "Sonar Token is ${{ secrets.TOKEN }}"
   ```
   
   Finally, we have the caller-workflow in another repo (repo - apoorvPC/TestRepo), with secrets present in this same repo
   
  ```
- name: Test Caller workflow
+name: Test Caller workflow
 
 on:
   workflow_dispatch:
@@ -330,22 +334,25 @@ on:
         description: "Select Test type"
         required: true
         type: string
+        
 
 jobs:
  calling-workflow-2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: NPM Test
-        if: ${{ inputs.Test=="npm" }}
-        uses: apoorvPC/privatecircle_repo/.github/workflows/pan-repo-workdlow2.yml@main
-        with:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    if: ${{ inputs.Test=='npm' }}
+    uses: apoorvPC/privatecircle_repo/.github/workflows/pan-repo-workflow2.yml@main
+    secrets:
+      TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    
+  
  calling-workflow-1:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Sonar Test
-      if: ${{ inputs.Test=="sonar" }}
-      uses: apoorvPC/privatecircle_repo/.github/workflows/pan-repo-workflow1.yml@main
-      with:
-        SONAR_AUTH_TOKEN: ${{ secrets.SONAR_AUTH_TOKEN }}
+    if: ${{ inputs.Test=='sonar' }}
+    uses: apoorvPC/privatecircle_repo/.github/workflows/pan-repo-workflow1.yml@main
+    secrets:
+      TOKEN: ${{ secrets.SONAR_AUTH_TOKEN }}
  ```
+
+NOTE: tOKEN IS PASSED BETWEEN WORKFLOWS BUT CANNOT BE ECHOED AS IS ENCRYPTED.
+
+When user gives input as 'npm', NPM test workflow is called and NPM token is passed. Sonar workflow is skipped.
+
+![image](https://user-images.githubusercontent.com/109505635/179910257-34ea0073-9761-466c-a06c-69c026457946.png)
