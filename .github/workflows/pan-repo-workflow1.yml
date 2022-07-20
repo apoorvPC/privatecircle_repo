@@ -1,10 +1,7 @@
 name: Workflow to be invoked #1
 on:
   workflow_call:
-    inputs:
-      NPM_AUTH_TOKEN:
-        required: true
-        type: string
+    
   
         
 jobs:
@@ -12,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: npm test
-        run: echo "NPM tests running, NPM Token is ${{ secrets.NPM_AUTH_TOKEN }}"
+        run: echo "NPM tests running"
   
 
