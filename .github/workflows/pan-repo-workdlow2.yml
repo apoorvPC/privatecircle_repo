@@ -1,17 +1,14 @@
 name: Workflow to be invoked #2
 on:
   workflow_call:
-    inputs:
-      SONAR_AUTH_TOKEN:
-        required: true
-        type: string
+    
   
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Sonar test
-        run: echo "Sonar tests running, Sonar Token is ${{ secrets.SONAR_AUTH_TOKEN }}"
+        run: echo "Sonar tests running"
         
   
 
